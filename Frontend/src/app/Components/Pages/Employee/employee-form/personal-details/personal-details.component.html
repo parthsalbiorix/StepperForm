@@ -1,0 +1,109 @@
+<div [formGroup]="employeeForm">
+    <div class="row">
+        <ng-container *ngIf="imgUrl">
+            <div class="d-flex justify-content-center">
+                <img [src]="imgUrl" height="100">
+            </div>
+        </ng-container>
+        <div class="d-flex justify-content-center">
+            <input type='file' accept="image/png, image/jpeg" (change)="onSelectFile($event)">
+            <mat-error *ngIf="imgUrl==''">
+                Image is required
+            </mat-error>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="First name" formControlName="firstName" required>
+                <mat-error *ngIf="employeeForm.get('firstName')?.hasError('required')">
+                    Name is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Middle Name</mat-label>
+                <input matInput placeholder="Middle name" formControlName="middleName" required>
+                <mat-error *ngIf="employeeForm.get('middleName')?.hasError('required')">
+                    Middlename is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last name" formControlName="lastName" required>
+                <mat-error *ngIf="employeeForm.get('lastName')?.hasError('required')">
+                    Last Name is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="abc@gmail.com" formControlName="email" required>
+                <mat-error *ngIf="employeeForm.get('email')?.hasError('required')">
+                    email is required
+                </mat-error>
+                <mat-error *ngIf="employeeForm.get('email')?.hasError('pattern')">
+                    Enter valid email
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Mobile</mat-label>
+                <input matInput placeholder="Mobile" type="number" formControlName="mobile" required>
+                <mat-error *ngIf="employeeForm.get('mobile')?.hasError('required')">
+                    Mobile is required
+                </mat-error>
+                <mat-error *ngIf="employeeForm.get('mobile')?.hasError('pattern')">
+                    Number should be 10 digit and Start with digit 6,7,8 or 9 only.
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dob">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="employeeForm.get('dob')?.hasError('required')">
+                    Date of Birth is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Present Address</mat-label>
+                <input matInput placeholder="Present Address" formControlName="presentAddress" required>
+                <mat-error *ngIf="employeeForm.get('presentAddress')?.hasError('required')">
+                    Address is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Permanent Address</mat-label>
+                <input matInput placeholder="Permanent Address" formControlName="permanentAddress" required>
+                <mat-error *ngIf="employeeForm.get('permanentAddress')?.hasError('required')">
+                    Permanent Address is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <mat-checkbox class="example-margin" (change)="copyAdd()">Copy to Permanent Address
+    </mat-checkbox>
+
+
+    <button class="float-end" mat-button matStepperNext type="button" [disabled]="employeeForm.invalid">Next</button>

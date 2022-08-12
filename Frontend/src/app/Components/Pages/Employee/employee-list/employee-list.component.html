@@ -1,0 +1,86 @@
+<br>
+<div class="container-fluid">
+
+    <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Image Column -->
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Profile Picture</th>
+            <td mat-cell matRipple *matCellDef="let element" style="width: 15%;">
+                <img [src]="element.personalDetails.image" alt="" width="100px">
+            </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell matRipple *matCellDef="let element"> {{element.personalDetails.firstName}} </td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+            <td mat-cell matRipple *matCellDef="let element"> {{element.professionalDetails.department}} </td>
+        </ng-container>
+
+        <!-- Designation Column -->
+        <ng-container matColumnDef="designation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+            <td mat-cell matRipple *matCellDef="let element"> {{element.professionalDetails.designation}} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell matRipple *matCellDef="let element"> {{element.personalDetails.email}} </td>
+        </ng-container>
+
+        <!-- Mobile Number Column -->
+        <ng-container matColumnDef="mobile">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </th>
+            <td mat-cell matRipple *matCellDef="let element"> {{element.personalDetails.mobile}} </td>
+        </ng-container>
+
+        <!-- Resume Number Column -->
+        <ng-container matColumnDef="resume">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Resume </th>
+            <td mat-cell matRipple *matCellDef="let element">
+                <ng-container *ngIf="element.professionalDetails?.resume">
+                    <!-- <a [href]="resume" download="file.jpg"> -->
+                    <mat-icon>attachment</mat-icon>
+                    <!-- </a> -->
+                </ng-container>
+                <ng-container *ngIf="!element.professionalDetails?.resume">
+
+                    <mat-icon style="opacity: 0.3">file</mat-icon>
+
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell matRipple *matCellDef="let element">
+                <mat-icon [routerLink]="['/employee/form',element._id]">edit</mat-icon>
+                <mat-icon class="pl12" (click)="deleteEmp(element)">delete</mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+<div class="fixedbutton">
+    <button mat-fab color="primary" routerLink="/employee/form" aria-label="icon button with a add icon">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

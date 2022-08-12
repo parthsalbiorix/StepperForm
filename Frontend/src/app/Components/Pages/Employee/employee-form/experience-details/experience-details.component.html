@@ -1,0 +1,55 @@
+<div [formGroup]="employeeForm">
+    <button mat-raised-button color="primary" class="float-right" (click)="addExp()">Add Education</button>
+    <div formGroupName="experienceDetails">
+        <ng-container *ngFor="let experienceDetail of experienceDetailsArray.controls; let i = index">
+            <div [formGroupName]="i">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>Company Name</mat-label>
+                            <input matInput placeholder="Companay name" formControlName="companayName" required>
+                            <mat-error *ngIf="experienceDetail.get('companayName')?.hasError('required')">
+                                Companay Name is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>Position</mat-label>
+                            <input matInput placeholder="position" formControlName="position" required>
+                            <mat-error *ngIf="experienceDetail.get('position')?.hasError('required')">
+                                Position is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>Total Year</mat-label>
+                            <input type="number" matInput placeholder="years" formControlName="totalYear" required>
+                            <mat-error *ngIf="experienceDetail.get('totalYear')?.hasError('required')">
+                                Total Year is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <mat-label>CTC</mat-label>
+                            <input matInput type="number" placeholder="CTC" formControlName="CTC" required>
+                            <mat-error *ngIf="experienceDetail.get('CTC')?.hasError('required')">
+                                CTC is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-1">
+                        <mat-icon class="mt-4" (click)="removeExp(i)">delete</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button class="float-end" mat-button matStepperNext type="button"
+            [disabled]="experienceDetailsArray.invalid">Next</button>
+    </div>
+</div>

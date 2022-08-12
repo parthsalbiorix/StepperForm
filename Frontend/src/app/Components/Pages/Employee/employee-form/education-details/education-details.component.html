@@ -1,0 +1,56 @@
+<div [formGroup]="employeeForm">
+    <button mat-raised-button color="primary" class="float-right" (click)="addEdu()">Add Education</button>
+    <div formGroupName="educationDetails">
+        <ng-container *ngFor="let userFormGroup of educationDetailsArray.controls; let i = index">
+            <div [formGroupName]="i">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>Education Name</mat-label>
+                            <input matInput placeholder="Education Name" formControlName="educationName" required>
+                            <mat-error *ngIf="userFormGroup.get('educationName')?.hasError('required')">
+                                EducationName is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>University Name</mat-label>
+                            <input matInput placeholder="University" formControlName="universityName" required>
+                            <mat-error *ngIf="userFormGroup.get('universityName')?.hasError('required')">
+                                University is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label>Result</mat-label>
+                            <input matInput placeholder="result" formControlName="result" required>
+                            <mat-error *ngIf="userFormGroup.get('result')?.hasError('required')">
+                                Result is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2">
+                        <mat-form-field>
+                            <mat-label>Year</mat-label>
+                            <input matInput placeholder="1800 45 45666" type="number" formControlName="year" required>
+                            <mat-error *ngIf="userFormGroup.get('year')?.hasError('required')">
+                                Result is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-1">
+                        <mat-icon class="mt-4" (click)="removeEdu(i)">delete</mat-icon>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button class="float-end" mat-button matStepperNext type="button"
+            [disabled]="educationDetailsArray.invalid">Next</button>
+    </div>
+</div>

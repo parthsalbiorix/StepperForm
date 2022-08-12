@@ -1,0 +1,45 @@
+<br>
+<div class="container-fluid">
+    <h2>{{action}}</h2>
+    <mat-horizontal-stepper [linear]="true" #stepper>
+
+        <mat-step [stepControl]="employeeForm.controls['personalDetails']" errorMessage="personalDetails is required.">
+            <ng-template matStepLabel>Personal Details</ng-template>
+            <app-personal-details></app-personal-details>
+        </mat-step>
+
+        <mat-step [stepControl]="employeeForm.controls['bankDetails']" errorMessage="bankDetails is required.">
+            <ng-template matStepLabel>Bank Details</ng-template>
+            <app-bank-details></app-bank-details>
+        </mat-step>
+
+        <mat-step [stepControl]="employeeForm.controls['professionalDetails']"
+            errorMessage="professionalDetails is required.">
+            <ng-template matStepLabel>Professional Details</ng-template>
+            <app-professional-details></app-professional-details>
+        </mat-step>
+
+        <mat-step [stepControl]="employeeForm.controls['educationDetails']"
+            errorMessage="educationDetails is required.">
+            <ng-template matStepLabel>Education Details</ng-template>
+            <app-education-details></app-education-details>
+        </mat-step>
+
+        <mat-step [stepControl]="employeeForm.controls['experienceDetails']"
+            errorMessage="experienceDetails is required.">
+            <ng-template matStepLabel>Experience Details</ng-template>
+            <app-experience-details></app-experience-details>
+        </mat-step>
+
+        <mat-step [stepControl]="employeeForm.controls['currentOrganizationDetails']"
+            errorMessage="currentOrganizationDetails is required.">
+            <ng-template matStepLabel>Current Organization Details Details</ng-template>
+            <app-current-organization-details></app-current-organization-details>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button mat-button (click)="saveEmaployee()" [disabled]="employeeForm.invalid">Submit</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

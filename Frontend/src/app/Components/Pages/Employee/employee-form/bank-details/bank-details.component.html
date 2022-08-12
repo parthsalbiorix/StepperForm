@@ -1,0 +1,70 @@
+<div [formGroup]="employeeForm">
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Bank Name</mat-label>
+                <input matInput placeholder="bank of xyz" formControlName="bankName" required>
+                <mat-error *ngIf="employeeForm.get('bankName')?.hasError('required')">
+                    Bank is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Account Name</mat-label>
+                <input matInput placeholder="Account Name" formControlName="accountName" required>
+                <mat-error *ngIf="employeeForm.get('accountName')?.hasError('required')">
+                    Account Name is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Account Number</mat-label>
+                <input matInput placeholder="Account number" formControlName="accountNumber" required>
+                <mat-error *ngIf="employeeForm.get('accountNumber')?.hasError('required')">
+                    Account Number is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>IFFC Code</mat-label>
+                <input matInput placeholder="BARB0AMROLI" formControlName="ifscCode" required>
+                <mat-error *ngIf="employeeForm.get('ifscCode')?.hasError('required')">
+                    IFSC Code Number is required
+                </mat-error>
+                <mat-error *ngIf="employeeForm.get('ifscCode')?.hasError('pattern')">
+                    IFSC Code must be of format AAAA0111111.
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Adharcard</mat-label>
+                <input matInput type="number" placeholder="Adharcard" formControlName="adharcard" required>
+                <mat-error *ngIf="employeeForm.get('adharcard')?.hasError('required')">
+                    adharcard is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Pan Card</mat-label>
+                <input matInput placeholder="PAN Card" formControlName="panCard" required>
+                <mat-error *ngIf="employeeForm.get('panCard')?.hasError('required')">
+                    Pan Card is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div>
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button class="float-end" mat-button matStepperNext type="button"
+            [disabled]="employeeForm.invalid">Next</button>
+    </div>
+</div>
