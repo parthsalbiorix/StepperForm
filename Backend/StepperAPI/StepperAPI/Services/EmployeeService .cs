@@ -15,30 +15,30 @@ namespace StepperAPI.Services
 
         }
 
-        public List<Employee> GetAllEmployee()
+        public async Task<List<Employee>> GetAllEmployee()
         {
-            return _employees.Find(_employees => true).ToList();
+            return await _employees.Find(_employees => true).ToListAsync();
         }
 
-        public Employee GetEmployee(string id)
+        public async Task<Employee> GetEmployee(string id)
         {
-            return _employees.Find(employee => employee._id == id).FirstOrDefault();
+            return await _employees.Find(employee => employee._id == id).FirstAsync();
         }
-        public Employee Create(Employee employee)
+        public async Task<Employee> Create(Employee employee)
         {
-            _employees.InsertOne(employee);
+            await _employees.InsertOneAsync(employee);
             return employee;
         }
 
-        public Employee UpdateEmployee(string id, Employee employee)
+        public async Task<Employee> UpdateEmployee(string id, Employee employee)
         {
-            _employees.ReplaceOne(employee => employee._id == id, employee);
+            await _employees.ReplaceOneAsync(employee => employee._id == id, employee);
             return employee;
         }
 
-        public void RemoveEmployee(string id)
+        public async Task RemoveEmployee(string id)
         {
-            _employees.DeleteOne(employee => employee._id == id);
+            await _employees.DeleteOneAsync(employee => employee._id == id);
         }
 
     }

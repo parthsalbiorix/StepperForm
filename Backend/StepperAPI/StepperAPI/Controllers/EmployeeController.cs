@@ -9,37 +9,31 @@ namespace StepperAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IMapper mapper;
         private readonly EmployeeService _employeeService;
 
-        public EmployeeController(EmployeeService employeeService, IMapper mapper)
+        public EmployeeController(EmployeeService employeeService)
         {
-            _employeeService = employeeService;
-            this.mapper = mapper;
+            _employeeService = employeeService ?? throw new ArgumentNullException(nameof(employeeService));
         }
 
         #region GetEmployee
         // GET: api/Employee
         [HttpGet]
-        public ActionResult<List<Employee>> GetAllEmployees()
+        public async Task<ActionResult<List<Employee>>> GetAllEmployees()
         {
             if (_employeeService._employees == null)
             {
                 return NotFound();
             }
-            return _employeeService.GetAllEmployee();
+            return await _employeeService.GetAllEmployee();
         }
 
 
         // GET: api/Employee/5
         [HttpGet("{id}")]
-        public ActionResult<Employee> GetEmployee(string id)
+        public async Task<ActionResult<Employee>> GetEmployee(string id)
         {
-            if (_employeeService._employees == null)
-            {
-                return NotFound();
-            }
-            var employee = _employeeService.GetEmployee(id);
+            var employee = await _employeeService.GetEmployee(id);
 
             if (employee == null)
             {
@@ -54,10 +48,10 @@ namespace StepperAPI.Controllers
         #region POSTEmployee
         //POST: api/Employee
         [HttpPost]
-        public ActionResult<Employee> PostEmployee(Employee employeeDTO)
+        public async Task<ActionResult<Employee>> PostEmployee(Employee employeeDTO)
         {
 
-            var employee = _employeeService.Create(employeeDTO);
+            var employee = await _employeeService.Create(employeeDTO);
 
             return Ok(employee);
         }
@@ -67,9 +61,9 @@ namespace StepperAPI.Controllers
         #region PUTEmployee
         // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public IActionResult PutEmployee(string id, [FromBody] Employee EmployeeDTO)
+        public async Task<ActionResult<Employee>> PutEmployee(string id, [FromBody] Employee EmployeeDTO)
         {
-            var employee = _employeeService.UpdateEmployee(id, EmployeeDTO);
+            var employee = await _employeeService.UpdateEmployee(id, EmployeeDTO);
 
             return Ok(employee);
         }
@@ -80,14 +74,14 @@ namespace StepperAPI.Controllers
 
         //DELETE: api/Employee/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(string id)
+        public async Task<ActionResult> DeleteProduct(string id)
         {
             var employee = _employeeService.GetEmployee(id);
             if (employee == null)
             {
                 return NotFound();
             }
-            _employeeService.RemoveEmployee(id);
+            await _employeeService.RemoveEmployee(id);
 
             return Ok(true);
         }
