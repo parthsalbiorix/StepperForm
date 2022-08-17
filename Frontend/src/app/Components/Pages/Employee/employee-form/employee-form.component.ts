@@ -13,6 +13,7 @@ import { config } from 'src/app/Utils/config';
   styleUrls: ['./employee-form.component.scss']
 })
 export class EmployeeFormComponent implements OnInit {
+  loader: boolean = false;
   employeeForm: FormGroup;
   employee: Employee;
 
@@ -37,21 +38,31 @@ export class EmployeeFormComponent implements OnInit {
   fillEmployee() {
     this.action = "Edit Employee";
     let id = this.route.snapshot.paramMap.get('id') as string;
+    this.loader = true;
     this.$.apis.employee.getEmployee(id).subscribe({
       next: (x) => {
         this.employee = x;
         this.employeeForm.patchValue(this.employee);
+        this.loader = false;
+
       },
       error: (err: HttpErrorResponse) => {
         this.$.snackBar.open(`${err.message}`, "", config);
+        this.loader = false;
+
       }
     });
   }
 
   saveEmaployee() {
     if (this.action == "Add Employee") {
+      this.loader = true;
+
       this.$.apis.employee.postEmployee(this.employeeForm.value).subscribe({
-        next: x => x,
+        next: x => {
+          this.loader = false;
+
+        },
         error: (err: HttpErrorResponse) => {
           console.log(err.message);
         },
@@ -61,6 +72,8 @@ export class EmployeeFormComponent implements OnInit {
             duration: 2000,
           };
           this.$.snackBar.open("Added!", "", config);
+          this.loader = false;
+
         }
       });
     }
@@ -68,10 +81,16 @@ export class EmployeeFormComponent implements OnInit {
       let id = this.route.snapshot.paramMap.get('id') as string;
       this.employee = this.employeeForm.value;
       this.employee._id = id;
+      this.loader = true;
       this.$.apis.employee.putEmployee(id, this.employee).subscribe({
-        next: x => x,
+        next: x => {
+          this.loader = false;
+
+        },
         error: (err: HttpErrorResponse) => {
           console.log(err.message);
+          this.loader = false;
+
         },
         complete: () => {
           this.$.router.navigate(['']);
@@ -79,14 +98,12 @@ export class EmployeeFormComponent implements OnInit {
             duration: 2000,
           };
           this.$.snackBar.open("Updated!", "", config);
+          this.loader = false;
+
         }
       });
     }
 
-  }
-
-  consoleMe() {
-    console.log(this.employeeForm.value);
   }
 
 }

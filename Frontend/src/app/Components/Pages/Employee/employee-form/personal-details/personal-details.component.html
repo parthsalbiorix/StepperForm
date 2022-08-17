@@ -6,8 +6,9 @@
             </div>
         </ng-container>
         <div class="d-flex justify-content-center">
-            <input type='file' accept="image/png, image/jpeg" (change)="onSelectFile($event)">
-            <mat-error *ngIf="imgUrl==''">
+            <input type='file' accept="image/png, image/jpeg" (change)="onSelectFile($event)" formControlName="image">
+            <mat-error
+                *ngIf="employeeForm.controls['image'].invalid && (employeeForm.controls['image'].dirty || employeeForm.controls['image'].touched)">
                 Image is required
             </mat-error>
         </div>

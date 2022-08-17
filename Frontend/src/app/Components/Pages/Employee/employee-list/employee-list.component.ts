@@ -15,6 +15,8 @@ import { config } from 'src/app/Utils/config';
   styleUrls: ['./employee-list.component.scss']
 })
 export class EmployeeListComponent implements OnInit {
+  loader: boolean = false;
+
 
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>([]);
   displayedColumns: string[] = ['image', 'name', 'department', 'designation', 'email', 'mobile', 'resume', 'action'];
@@ -34,15 +36,22 @@ export class EmployeeListComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
   getAll() {
+    this.loader = true;
     this.$.apis.employee.getAllEmployee().subscribe({
       next: (x) => {
         this.dataSource.data = x;
+        this.loader = false;
 
       },
       error: (err: HttpErrorResponse) => {
         console.log(err.message);
+        this.loader = false;
+
       },
-      complete: () => { this.table.renderRows(); }
+      complete: () => {
+        this.table.renderRows();
+        this.loader = false;
+      }
     });
   }
   applyFilter(event: Event) {
@@ -56,10 +65,13 @@ export class EmployeeListComponent implements OnInit {
       message: 'Are you sure want to delete?'
     };
     this.$.model.openConfirm(diallog).subscribe(x => {
-      if (x)
+      if (x) {
+        this.loader = true;
         this.$.apis.employee.deleteEmployee(item._id).subscribe(
           {
             next: x => {
+              this.loader = false;
+
               let index = this.dataSource.data.indexOf(item);
               this.dataSource.data.splice(index, 1);
               this.dataSource.data = this.dataSource.data.filter(i => i !== item);
@@ -68,10 +80,15 @@ export class EmployeeListComponent implements OnInit {
             },
             error: (err: HttpErrorResponse) => {
               console.log(err.message);
+              this.loader = false;
             },
-            complete: () => { this.table.renderRows(); }
+            complete: () => {
+              this.table.renderRows();
+              this.loader = false;
+            }
           }
         );
+      }
     });
   }
   downloadResume(data: any) {
